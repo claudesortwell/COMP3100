@@ -24,9 +24,8 @@ public class Job {
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + "[id=" + this.id + " submitTime=" +
-    this.submitTime + " estRunTime=" + this.estRunTime+" core=" + 
-    this.core + " disk=" + this.disk + " memory=" + this.memory+ "]";
+    return getClass().getSimpleName() + "[id=" + this.id + " submitTime=" + this.submitTime + " estRunTime="
+        + this.estRunTime + " core=" + this.core + " disk=" + this.disk + " memory=" + this.memory + "]";
   }
 
 }

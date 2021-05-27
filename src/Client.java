@@ -2,6 +2,7 @@ import java.net.*;
 import java.io.*;
 
 import Folder.Job;
+import Folder.Server;
 import Folder.ServerCollection;
 
 public class Client {
@@ -22,6 +23,7 @@ public class Client {
             System.out.println("Client initialized!");
         } catch (Exception e) {
             System.out.println("Error: Client failed to initialize");
+            closeConnection();
         }
     }
 
@@ -54,11 +56,10 @@ public class Client {
                         output = client.sendMessage("OK");
 
                         ServerCollection servers = new ServerCollection(output.split("\n"));
-
+                        Server largest = servers.getServer(job);
                         output = client.sendMessage("OK");
 
-                        output = client.sendMessage("SCHD " + job.id + " " + servers.getLargestServer().type + " "
-                                + servers.getLargestServer().id);
+                        output = client.sendMessage("SCHD " + job.id + " " + largest.type + " " + largest.id);
                     } catch (Exception e) {
                     }
                 }
