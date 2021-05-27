@@ -8,28 +8,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import Folder.Job;
+import Folder.Server;
+
 public class Client {
 
 // Server class required to find a server.
-    private class Server {
-        public String type;
-        public int limit;
-        public int bootupTime;
-        public float hourlyRate;
-        public int coreCount;
-        public int memory;
-        public int disk;
-
-        public Server(String type, int limit, int bootupTime, float hourlyRate, int coreCount, int memory, int disk) {
-            this.type = type;
-            this.limit = limit;
-            this.bootupTime = bootupTime;
-            this.hourlyRate = hourlyRate;
-            this.coreCount = coreCount;
-            this.memory = memory;
-            this.disk = disk;
-        }
-    }
 
     private static Socket socket;
     private static BufferedReader inputBuffer;
@@ -48,6 +32,10 @@ public class Client {
         }
     }
 
+    public void getCapable() {
+
+    }
+
     public static void main(String args[]) throws Exception {
         String output = "";
         Client client = new Client();
@@ -64,6 +52,23 @@ public class Client {
             Server[] servers = client.getServers("ds-system.xml");
             Server largestServer = client.getLargestServer(servers);
             while (processing) {
+                // if(output.contains("JOBN")) {
+                //     System.out.println("Hi");
+                    
+                //         String[] jobData = output.split("\\s+");
+                //         output = client.sendMessage("GETS Capable " + Integer.parseInt(jobData[4]) + " " + Integer.parseInt(jobData[5]) + " " + Integer.parseInt(jobData[6]));
+                //         System.out.printf("RCVD %s \n", output);
+                        
+                //         output = client.sendMessage("OK");
+                //         System.out.printf("RCVD %s \n", output);
+                //         String[] serverData = output.split("\n");
+                //         output = client.sendMessage("OK");
+
+                //         int jobCount = Integer.parseInt(jobData[2]);
+                //         output = client.sendMessage("SCHD " + jobCount + " " + serverData[0].split("\\s+")[0] + " " + serverData[0].split("\\s+")[1]);
+                //         System.out.printf("RCVD %s \n", output);
+                    
+                // }
                 if (output.contains("OK")) {
                     output = client.sendMessage("REDY");
                     System.out.printf("RCVD %s \n", output);
@@ -78,8 +83,16 @@ public class Client {
                 } else {
                     try {
                         String[] jobData = output.split("\\s+");
+                        output = client.sendMessage("GETS Capable " + Integer.parseInt(jobData[4]) + " " + Integer.parseInt(jobData[5]) + " " + Integer.parseInt(jobData[6]));
+                        System.out.printf("RCVD %s \n", output);
+                        
+                        output = client.sendMessage("OK");
+                        System.out.printf("RCVD %s \n", output);
+                        String[] serverData = output.split("\n");
+                        output = client.sendMessage("OK");
+
                         int jobCount = Integer.parseInt(jobData[2]);
-                        output = client.sendMessage("SCHD " + jobCount + " " + largestServer.type + " " + "0");
+                        output = client.sendMessage("SCHD " + jobCount + " " + serverData[0].split("\\s+")[0] + " " + serverData[0].split("\\s+")[1]);
                         System.out.printf("RCVD %s \n", output);
                     } catch (Exception e) {
                     }
