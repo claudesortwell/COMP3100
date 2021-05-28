@@ -44,6 +44,36 @@ public class ServerCollection {
         }
 
         if (chosenServer == null) {
+            for (int i = servers.length - 1; i >= 0; i--) {
+                if (servers[i].memory >= job.memory && servers[i].waitingJobs == 0) {
+                    chosenServer = servers[i];
+                    break;
+                }
+            }
+
+        }
+
+        if (chosenServer == null) {
+            for (int i = servers.length - 1; i >= 0; i--) {
+                if (servers[i].waitingJobs <= 1) {
+                    chosenServer = servers[i];
+                    break;
+                }
+            }
+
+        }
+
+        if (chosenServer == null) {
+            for (int i = servers.length - 1; i >= 0; i--) {
+                if (servers[i].waitingJobs <= 4) {
+                    chosenServer = servers[i];
+                    break;
+                }
+            }
+
+        }
+
+        if (chosenServer == null) {
             chosenServer = servers[0];
         }
 
