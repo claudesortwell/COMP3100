@@ -1,12 +1,11 @@
 package Folder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ServerCollection {
 
     public Server[] servers;
-    public static int MAX_WAITING_JOBS = 1;
+    public static int MAX_WAITING_JOBS = 0;
 
     public ServerCollection(String[] arrayOfServerStrings) {
         this.servers = new Server[arrayOfServerStrings.length];
@@ -19,47 +18,34 @@ public class ServerCollection {
     }
 
     /**
-     * Return A Server for the Job
-     * 
-     * Using an very simple Algorithm that just looks at all the capable servers
-     * gets all the ones that have cores equal or greater than the job requirement
-     * and assigns to to the largest server. Which has less than or equal to one
-     * waiting waiting job, otherwise it will assign it to the
-     * 
+     * Algorithm for return A Server for the Job
      */
     public Server getServer(Job job) {
 
-        // System.out.println(job);
-
-        Server chosenServer = servers[0];
-
-        // for (int i = 0; i < servers.length; i++) {
-        // System.out.println(servers[i]);
-        // }
-
-        ArrayList<Server> exactMatchServers = new ArrayList<Server>();
+        Server chosenServer = null;
 
         // If one matches job and its not backlogged
-        for (int i = 0; i < servers.length; i++) {
-            if (servers[i].coreCount >= job.core) {
-                exactMatchServers.add(servers[i]);
+        for (int i = servers.length - 1; i >= 0; i--) {
+            if (servers[i].coreCount >= job.core && servers[i].disk >= job.disk && servers[i].memory >= job.memory
+                    && servers[i].waitingJobs == 0) {
+                chosenServer = servers[i];
+                break;
             }
         }
 
-        if (exactMatchServers.size() > 0) {
-            chosenServer = exactMatchServers.get(exactMatchServers.size() - 1);
-
-            // If one matches job and its not backlogged
-            for (int i = exactMatchServers.size() - 1; i > 0; i--) {
-                if (exactMatchServers.get(i).waitingJobs <= MAX_WAITING_JOBS) {
-                    chosenServer = exactMatchServers.get(i);
+        if (chosenServer == null) {
+            for (int i = servers.length - 1; i >= 0; i--) {
+                if (servers[i].disk >= job.disk && servers[i].memory >= job.memory && servers[i].waitingJobs == 0) {
+                    chosenServer = servers[i];
                     break;
                 }
             }
 
         }
 
-        // System.out.println("CHOSEN: " + chosenServer);
+        if (chosenServer == null) {
+            chosenServer = servers[0];
+        }
 
         return chosenServer;
     }
