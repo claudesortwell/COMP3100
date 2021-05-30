@@ -74,7 +74,7 @@ public class ServerCollection {
         }
 
         if (chosenServer == null) {
-            chosenServer = servers[0];
+            chosenServer = servers[servers.length - 1];
         }
 
         return chosenServer;
