@@ -1,14 +1,7 @@
-
-## Overview
-ds-sim is a discrete-event simulator that has been developed primarily for leveraging scheduling algorithm design. It adopts a minimalist design explicitly taking into account modularity in that it uses the client-server model. The client-side simulator acts as a job scheduler while the server-side simulator simulates everything else including users (job submissions) and servers (job execution).
-
----
 ## How to run a simulation
-1. run server `$ ds-server [OPTION]...`
-2. run client `$ ds-client [-a algorithm] [OPTION]...`
-
-## Usage
-`$ ds-server -c ds-config01.xml -v brief`
-
-`$ ds-client -a bf`
+Clone the Github linked below under references.
+Install OpenJDK.
+Once the Github has been cloned open a terminal inside the ‘src’ folder of the cloned Github repository.
+Once your in the src folder, type in the terminal ‘Javac Client’, to compile the Client code.
+Run the test script with the following command `./test_results "java Client -a fff" -o ru -n -c ../configs/other/`
 
